@@ -27,6 +27,13 @@
             </div>
         @endif
 
+        @if (preg_match('/^[A-Z]+\d+:\d+,\d+$/', $location->name) === 1)
+        <div class="alert alert-info">
+                <i class="fas fa-exclamation-triangle faa-pulse animated"></i>
+                This location is a shelf code. To learn what it means, consult
+                <a target="_blank" href="{{route('shelf-codes-help')}}">Shelf Codes Help</a>.
+        </div>
+        @endif
 
         <x-page-column class="col-md-9 main-panel">
           <x-tabs>
