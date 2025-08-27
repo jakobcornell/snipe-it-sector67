@@ -1089,3 +1089,5 @@ Route::middleware(['auth'])->get(
 )->name('home')
     ->breadcrumbs(fn (Trail $trail) => $trail->push('Home', route('home'))
     );
+
+Route::view('/shelf-codes-help', 'shelf-codes-help')->name('shelf-codes-help');
