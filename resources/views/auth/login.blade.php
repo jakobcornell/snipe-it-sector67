@@ -4,32 +4,31 @@
 {{-- Page content --}}
 @section('content')
 
-    <form role="form" action="{{ url('/login') }}" method="POST" autocomplete="{{ (config('auth.login_autocomplete') === true) ? 'on' : 'off'  }}">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 col-md-offset-4">
+
+                @if (($snipeSettings->google_login=='1') && ($snipeSettings->google_client_id!='') && ($snipeSettings->google_client_secret!=''))
+
+                    <br><br>
+                    <a href="{{ route('google.redirect')  }}" class="btn btn-block btn-social btn-google btn-lg">
+                        <i class="fa-brands fa-google"></i>
+                        {{ trans('auth/general.google_login') }}
+                    </a>
+
+                    <div class="separator">{{ strtoupper(trans('general.or')) }}</div>
+                @endif
 
 
-        <!-- this is a hack to prevent Chrome from trying to autocomplete fields -->
-        <input type="text" name="prevent_autofill" id="prevent_autofill" value="" style="display:none;" aria-hidden="true">
-        <input type="password" name="password_fake" id="password_fake" value="" style="display:none;" aria-hidden="true">
+                <div class="box login-box">
+                    <form role="form" action="{{ url('/login') }}" method="POST" autocomplete="{{ (config('auth.login_autocomplete') === true) ? 'on' : 'off'  }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-        <div class="container">
-            <div class="row">
+                        <!-- this is a hack to prevent Chrome from trying to autocomplete fields -->
+                        <input type="text" name="prevent_autofill" id="prevent_autofill" value="" style="display:none;" aria-hidden="true">
+                        <input type="password" name="password_fake" id="password_fake" value="" style="display:none;" aria-hidden="true">
 
-                <div class="col-md-4 col-md-offset-4">
-
-                    @if (($snipeSettings->google_login=='1') && ($snipeSettings->google_client_id!='') && ($snipeSettings->google_client_secret!=''))
-
-                        <br><br>
-                        <a href="{{ route('google.redirect')  }}" class="btn btn-block btn-social btn-google btn-lg">
-                            <i class="fa-brands fa-google"></i>
-                            {{ trans('auth/general.google_login') }}
-                        </a>
-
-                        <div class="separator">{{ strtoupper(trans('general.or')) }}</div>
-                    @endif
-
-
-                    <div class="box login-box">
                         <div class="box-header with-border">
                             <h1 class="box-title"> {{ trans('auth/general.login_prompt')  }}</h1>
                         </div>
@@ -112,13 +111,25 @@
 
                         </div>
 
-                    </div> <!-- end login box -->
+                    </form>
+                </div>
 
+                <div class="box login-box">
+                    <div class="box-header with-border">
+                        <h1 class="box-title">View-Only Guest Access</h1>
+                    </div>
+                    <form action="{{ url('/login') }}" method="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" name="username" value="ViewStuff" />
+                        <input type="hidden" name="password" value="ViewStuffViewStuff" />
+                        <div class="box-footer">
+                            <input class="btn btn-primary btn-block" type="submit" value="Continue as Guest" />
+                        </div>
+                    </form>
+                </div>
 
-                </div> <!-- col-md-4 -->
-
-            </div> <!-- end row -->
-        </div> <!-- end container -->
-    </form>
+            </div> <!-- col-md-4 -->
+        </div> <!-- end row -->
+    </div> <!-- end container -->
 
 @stop
